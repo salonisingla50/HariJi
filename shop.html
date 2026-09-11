@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop — Hari Shringar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">❦</span>
+      <span>Hari Shringar<small>DIVINE IDOLS · SHRINGAR · POOJA</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html" class="active">Shop</a>
+      <a href="shop.html?filter=bestsellers">Divine Idols</a>
+      <a href="shop.html?filter=new">New Arrivals</a>
+      <a href="index.html#story">Our Story</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7.5-4.9-10-9.3C0.2 8 2 4.5 5.6 4.5c2 0 3.6 1.1 4.4 2.7C10.8 5.6 12.4 4.5 14.4 4.5 18 4.5 19.8 8 18 11.7 15.5 16.1 12 21 12 21z"/></svg>
+      </button>
+      <button class="icon-btn" id="cartBtn" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 4h2l2.4 12.4a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L20 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="17" cy="21" r="1"/></svg>
+        <span class="badge" data-cart-count>0</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="shop-header">
+  <div class="wrap">
+    <span class="kicker">Divine Idols · Shringar · Pooja Essentials</span>
+    <h1>Beautiful essentials for every darshan</h1>
+  </div>
+</section>
+
+<section class="wrap shop-layout">
+  <aside>
+    <div class="filter-block">
+      <h4>Deity</h4>
+      <div id="catFilters"></div>
+    </div>
+    <div class="filter-block">
+      <h4>Material</h4>
+      <div id="materialFilters"></div>
+    </div>
+    <div class="filter-block">
+      <h4>Max price: <span id="priceLabel">₹6,000</span></h4>
+      <input type="range" min="150" max="6000" step="50" value="6000" class="price-slider" id="priceSlider">
+    </div>
+    <button class="btn btn-outline btn-small btn-full" id="clearFilters">Clear filters</button>
+  </aside>
+
+  <div>
+    <div class="shop-toolbar">
+      <span class="result-count" id="resultCount"></span>
+      <select id="sortSelect">
+        <option value="featured">Sort: Featured</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="name-asc">Name: A–Z</option>
+      </select>
+    </div>
+    <div class="shop-product-grid" id="shopGrid"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand"><span class="brand-mark">❦</span><span>Hari Shringar</span></div>
+        <p>Divine idols, hand-crafted dresses, shringar and pooja essentials for the heart of your home.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="shop.html">All idols</a></li>
+          <li><a href="shop.html?filter=bestsellers">Best sellers</a></li>
+          <li><a href="shop.html?filter=sale">On sale</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="index.html#story">Our craft</a></li>
+          <li><a href="#">Shipping & returns</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Stay in touch</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">WhatsApp updates</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Hari Shringar. All rights reserved.</span>
+      <span>Mumbai · Surat · Indore</span>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Your cart</h3>
+    <button class="cart-close" id="cartCloseBtn">×</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot" id="cartFoot" style="display:none;">
+    <div class="cart-subtotal"><span>Subtotal</span><strong id="cartSubtotal">₹0</strong></div>
+    <a href="#" class="btn btn-full">Checkout</a>
+  </div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script src="cart.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const state = {
+    cats: params.get("cat") ? [params.get("cat")] : [],
+    materials: [],
+    maxPrice: 6000,
+    sort: "featured",
+  };
+  if (params.get("filter") === "bestsellers") state.tagFilter = "Bestseller";
+  if (params.get("filter") === "sale") state.tagFilter = "Sale";
+  if (params.get("filter") === "new") state.tagFilter = "New";
+
+  const MATERIAL_GROUPS = [
+    { key: "Brass", test: m => m.includes("Brass") },
+    { key: "Marble", test: m => m.includes("Marble") || m.includes("marble") },
+    { key: "Sandalwood", test: m => m.includes("Sandalwood") },
+    { key: "Resin", test: m => m.includes("Resin") || m.includes("resin") },
+  ];
+
+  function renderFilters(){
+    document.getElementById("catFilters").innerHTML = CATEGORIES.map(c => {
+      const count = PRODUCTS.filter(p => p.cat === c.slug).length;
+      return `<label class="filter-option">
+        <span><input type="checkbox" value="${c.slug}" ${state.cats.includes(c.slug) ? "checked" : ""} onchange="toggleCat('${c.slug}')"> ${c.name}</span>
+        <span class="count">${count}</span>
+      </label>`;
+    }).join("");
+
+    document.getElementById("materialFilters").innerHTML = MATERIAL_GROUPS.map(m => {
+      const count = PRODUCTS.filter(p => m.test(p.material)).length;
+      return `<label class="filter-option">
+        <span><input type="checkbox" value="${m.key}" ${state.materials.includes(m.key) ? "checked" : ""} onchange="toggleMaterial('${m.key}')"> ${m.key}</span>
+        <span class="count">${count}</span>
+      </label>`;
+    }).join("");
+  }
+
+  function toggleCat(slug){
+    state.cats = state.cats.includes(slug) ? state.cats.filter(c => c !== slug) : [...state.cats, slug];
+    renderGrid();
+  }
+  function toggleMaterial(key){
+    state.materials = state.materials.includes(key) ? state.materials.filter(m => m !== key) : [...state.materials, key];
+    renderGrid();
+  }
+
+  document.getElementById("priceSlider").addEventListener("input", e => {
+    state.maxPrice = Number(e.target.value);
+    document.getElementById("priceLabel").textContent = formatINR(state.maxPrice);
+    renderGrid();
+  });
+  document.getElementById("sortSelect").addEventListener("change", e => {
+    state.sort = e.target.value;
+    renderGrid();
+  });
+  document.getElementById("clearFilters").addEventListener("click", () => {
+    state.cats = []; state.materials = []; state.maxPrice = 6000; state.tagFilter = null;
+    document.getElementById("priceSlider").value = 6000;
+    document.getElementById("priceLabel").textContent = "₹6,000";
+    renderFilters();
+    renderGrid();
+  });
+
+  function renderGrid(){
+    let list = PRODUCTS.filter(p => p.price <= state.maxPrice);
+    if (state.cats.length) list = list.filter(p => state.cats.includes(p.cat));
+    if (state.materials.length) list = list.filter(p => state.materials.some(m => MATERIAL_GROUPS.find(g => g.key === m).test(p.material)));
+    if (state.tagFilter) list = list.filter(p => p.tag === state.tagFilter);
+
+    if (state.sort === "price-asc") list = [...list].sort((a,b) => a.price - b.price);
+    if (state.sort === "price-desc") list = [...list].sort((a,b) => b.price - a.price);
+    if (state.sort === "name-asc") list = [...list].sort((a,b) => a.name.localeCompare(b.name));
+
+    document.getElementById("resultCount").textContent = `${list.length} product${list.length !== 1 ? "s" : ""}`;
+
+    document.getElementById("shopGrid").innerHTML = list.length ? list.map(p => `
+      <div class="product-card">
+        <div class="product-media">
+          ${p.tag ? `<span class="product-tag">${p.tag}</span>` : ""}
+          <button class="wish-btn ${Store.wishlist.includes(p.id) ? 'active' : ''}" onclick="toggleWishlist(${p.id}, this)">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.9-10-9.3C0.2 8 2 4.5 5.6 4.5c2 0 3.6 1.1 4.4 2.7C10.8 5.6 12.4 4.5 14.4 4.5 18 4.5 19.8 8 18 11.7 15.5 16.1 12 21 12 21z"/></svg>
+          </button>
+          ${iconFor(p.cat)}
+        </div>
+        <div class="product-info">
+          <span class="product-cat">${catName(p.cat)}</span>
+          <h3 class="product-title">${p.name}</h3>
+          <span class="product-material">${p.material}</span>
+          <div class="product-bottom">
+            <div><span class="price-now">${formatINR(p.price)}</span>${p.old ? `<span class="price-old">${formatINR(p.old)}</span>` : ""}</div>
+            <button class="add-btn" onclick="addToCart(${p.id})" aria-label="Add to cart">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h2l2.4 12.4a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L20 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="17" cy="21" r="1"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>`).join("") : `<p style="grid-column:1/-1; color:var(--ink-soft);">No pieces match those filters yet — try widening your price range.</p>`;
+  }
+
+  renderFilters();
+  renderGrid();
+</script>
+</body>
+</html>
